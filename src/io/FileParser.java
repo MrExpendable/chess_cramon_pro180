@@ -40,6 +40,22 @@ public class FileParser
 		}
 	}
 	
+	//Checks for piece capturing
+	public void parsePieceCapture(ArrayList<String> captures)
+	{
+		Pattern capture = Pattern.compile("(?<initPos>[a-h][1-8])\\s(?<finalPos>[a-h][1-8])\\*");
+		System.out.println("Searching for piece captures...");
+		for(String s : captures)
+		{
+			Matcher matcher = capture.matcher(s);
+			
+			if(matcher.find())
+			{
+				System.out.printf("Moved piece from %s to %s and captured piece on %s%n", matcher.group("initPos"), matcher.group("finalPos"), matcher.group("finalPos"));
+			}
+		}
+	}
+	
 	//Parses castling
 	public void parseSpecialMovement(String specialMovement)
 	{
@@ -87,6 +103,19 @@ public class FileParser
 			String parsedFinalPosition = matcher.group("finalPosition");
 			
 			System.out.printf("Piece on %s moved to %s%n", parsedInitPosition, parsedFinalPosition);
+		}
+	}
+	
+	//////TEST METHOD: Checks for piece capturing//////
+	public void testParsePieceCapture()
+	{
+		Pattern capture = Pattern.compile("(?<initPos>[a-h][1-8])\\s(?<finalPos>[a-h][1-8])\\*");
+		System.out.println("Searching for piece captures...");
+		Matcher matcher = capture.matcher("a1 a8*");
+		
+		if(matcher.find())
+		{
+			System.out.printf("Moved piece from %s to %s and captured piece on %s%n", matcher.group("initPos"), matcher.group("finalPos"), matcher.group("finalPos"));
 		}
 	}
 	

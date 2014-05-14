@@ -9,7 +9,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		//readFile(args);
-		parseText();
+		testParseText();
 	}
 	
 	//Test method, don't keep this in the final release
@@ -27,7 +27,7 @@ public class Main
 	}
 	
 	//Test method, don't keep this in the final release
-	public static void parseText()
+	public static void testParseText()
 	{
 		FileParser testParser = new FileParser();
 		
@@ -48,12 +48,21 @@ public class Main
 		testMovements.add("h1 a1");
 		testMovements.add("e6 d7");
 		
+		ArrayList<String> testCaptures = new ArrayList<String>();
+		testCaptures.add("a1 a8*");
+		testCaptures.add("b1 c3*");
+		testCaptures.add("d1 d4*");
+		testCaptures.add("h1 a1*");
+		testCaptures.add("e6 d7*");
+		
 		testParser.parsePiecePlacement(testPlacements);
 		testParser.parsePieceMovement(testMovements);
+		testParser.parsePieceCapture(testCaptures);
 		testParser.parseSpecialMovement("e1 g1 h1 f1");
 		
 //		testParser.testParsePieceMovement();
 //		testParser.testParsePiecePlacement();
+//		testParser.testParsePieceCapture();
 //		testParser.testParseSpecialMovement();
 	}
 }
