@@ -17,7 +17,10 @@ public class Main
 //		}
 //		beginIO.TestReadFile();
 		
+		//Only calling from main for testing purposes, I shouldn't be calling from main in the final release
 		FileParser parser = new FileParser();
 		parser.parsePiecePlacement();
+		parser.parsePieceMovement();
+		parser.parseSpecialMovement();
 	}
 }
