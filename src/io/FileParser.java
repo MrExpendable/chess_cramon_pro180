@@ -1,6 +1,7 @@
 package io;
 import java.util.ArrayList;
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class FileParser 
 {
@@ -57,18 +58,17 @@ public class FileParser
 	}
 	
 	//Parses castling
-	public void parseSpecialMovement(String specialMovement)
+	public void parseSpecialMovement(ArrayList<String> castles)
 	{
 		Pattern castle = Pattern.compile("([a-h][18])\\s([a-h][18])\\s([a-h][18])\\s([a-h][18])");
-		Matcher matcher = castle.matcher(specialMovement);
 		System.out.println("Searching for castling movement...");
-		if(matcher.find())
+		for(String s : castles)
 		{
-			System.out.printf("Moved king and rook from positions %s and %s to positions %s and %s, respectively%n", matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
-		}
-		else
-		{
-			System.out.println("Unable to find match in string");
+			Matcher matcher = castle.matcher(s);
+			if(matcher.find())
+			{
+				System.out.printf("Moved king and rook from positions %s and %s to positions %s and %s, respectively%n", matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+			}
 		}
 		System.out.println("");
 	}

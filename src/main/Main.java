@@ -1,6 +1,5 @@
 package main;
 import java.util.ArrayList;
-
 import io.FileIO;
 import io.FileParser;
 
@@ -8,11 +7,9 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		//readFile(args);
-		testParseText();
+		readFile(args);
 	}
 	
-	//Test method, don't keep this in the final release
 	public static void readFile(String[] args)
 	{
 		FileIO testIO = new FileIO();
@@ -26,7 +23,8 @@ public class Main
 		}
 	}
 	
-	//Test method, don't keep this in the final release
+	
+	//////TEST METHOD: don't use this in the final release
 	public static void testParseText()
 	{
 		FileParser testParser = new FileParser();
@@ -58,7 +56,7 @@ public class Main
 		testParser.parsePiecePlacement(testPlacements);
 		testParser.parsePieceMovement(testMovements);
 		testParser.parsePieceCapture(testCaptures);
-		testParser.parseSpecialMovement("e1 g1 h1 f1");
+		//testParser.parseSpecialMovement("e1 g1 h1 f1");
 		
 //		testParser.testParsePieceMovement();
 //		testParser.testParsePiecePlacement();
