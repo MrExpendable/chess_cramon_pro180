@@ -30,33 +30,6 @@ public class FileIO
 			parser.parsePieceCapture(parsedList);
 			parser.parseSpecialMovement(parsedList);
 		}
-		
-//		String line;
-//        File file = new File(fileName);
-//        System.out.println(file.exists());
-//        
-//        try(BufferedReader br = new BufferedReader(new FileReader(file));)
-//        {
-//        	while((line = br.readLine()) != null)
-//            {
-//                System.out.println(line);
-//            }
-//        	
-//        	br.close();
-//        }
-		
-//		try
-//		{
-//			FileReader in = new FileReader("C:/test.txt");
-//		    BufferedReader br = new BufferedReader(in);
-//		    String line;
-//		    while ((line = br.readLine()) != null) 
-//		    {
-//		        System.out.println(line);
-//		    }
-//		    
-//		    in.close();
-//		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
