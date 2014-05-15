@@ -5,19 +5,20 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		readFile(args);
-	}
-	
-	public static void readFile(String[] args)
-	{
-		FileIO testIO = new FileIO();
-		if(args[0].length() > 0)
+		FileIO fileIO = new FileIO();
+		
+		if(args != null)
 		{
-			testIO.readFile(args[0]);
+			fileIO.readFile(args[0]);
 		}
 		else
 		{
 			System.out.println("No filename provided; provide command line arguments");
 		}
 	}
+	
+	//FOR FUTURE REFERENCE:
+	//Command line arguments provided through eclipse are in this format:
+	// /resources/filename
+	//**exclude file extensions, just provide file names
 }
