@@ -26,9 +26,6 @@ public class FileIO
 			FileParser parser = new FileParser();
 			
 			parser.parsePiecePlacement(parsedList);
-			parser.parsePieceMovement(parsedList);
-			parser.parsePieceCapture(parsedList);
-			parser.parseSpecialMovement(parsedList);
 		}
 		catch(Exception e)
 		{

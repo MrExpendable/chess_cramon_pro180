@@ -3,8 +3,17 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import board.Chessboard;
+
 public class FileParser 
 {
+	private Chessboard board;
+	
+	public FileParser()
+	{
+		board = new Chessboard();
+	}
+	
 	//Parses placement
 	public void parsePiecePlacement(ArrayList<String> placements)
 	{
@@ -17,8 +26,11 @@ public class FileParser
 			{
 				String parsedPiece = matcher.group("piece");
 				String parsedPosition = matcher.group("position");
+				boolean isPieceWhite = parsedPiece.contains("l") ? true : false;
 				
-				System.out.printf("%s to be placed at %s%n", parsedPiece, parsedPosition);
+				board.fillBoard(parsedPosition, isPieceWhite, parsedPiece);
+				
+				//System.out.printf("%s to be placed at %s%n", parsedPiece, parsedPosition);
 			}
 		}
 	}
