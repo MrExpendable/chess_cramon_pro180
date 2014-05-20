@@ -1,15 +1,14 @@
 package main;
+import game.GameManager;
 import io.FileIO;
 
 public class Main 
-{
+{	
 	public static void main(String[] args)
 	{
-		FileIO fileIO = new FileIO();
-		
 		if(args != null)
 		{
-			fileIO.readFile(args[0]);
+			GameManager gm = new GameManager(args[0]);
 		}
 		else
 		{

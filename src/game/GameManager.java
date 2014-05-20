@@ -1,16 +1,27 @@
 package game;
 
+import java.util.Scanner;
+
 public class GameManager 
 {
 	private Game game;
+	private boolean isRunning = true;
 	
-	public void createGame()
+	public GameManager(String path)
 	{
-		
+		game = new Game();
+		game.startGame(path);
+		runGame();
 	}
 	
 	public void runGame()
 	{
-		
+		while(isRunning)
+		{
+			System.out.println("Choose");
+			Scanner scan = new Scanner(System.in);
+			String userInput = scan.nextLine();
+			System.out.println(userInput);
+		}
 	}
 }

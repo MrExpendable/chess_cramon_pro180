@@ -30,47 +30,6 @@ public class Chessboard
 		return squares;
 	}
 	
-	//Fills the board
-	public void fillBoard(String positionToFill, boolean isPieceWhite, String pieceType)
-	{
-		//Convert column/row to int, fill positions based on these two ints
-		int col = Character.getNumericValue(positionToFill.charAt(0)) - 10;
-		int row = Character.getNumericValue(positionToFill.charAt(1)) - 1;
-		
-		//Bishop
-		if(pieceType.contains("B"))
-		{
-			squares[row][col].setPiece(new Bishop(isPieceWhite));
-		}
-		//King
-		else if(pieceType.contains("K"))
-		{
-			squares[row][col].setPiece(new King(isPieceWhite));
-		}
-		//Knight
-		else if(pieceType.contains("N"))
-		{
-			squares[row][col].setPiece(new Knight(isPieceWhite));
-		}
-		//Queen
-		else if(pieceType.contains("Q"))
-		{
-			squares[row][col].setPiece(new Queen(isPieceWhite));
-		}
-		//Rook
-		else if(pieceType.contains("R"))
-		{
-			squares[row][col].setPiece(new Rook(isPieceWhite));
-		}
-		//Pawn
-		else if(pieceType.contains("P"))
-		{
-			squares[row][col].setPiece(new Pawn(isPieceWhite));
-		}
-		
-		printBoard();
-	}
-	
 	//Print the board
 	public void printBoard()
 	{

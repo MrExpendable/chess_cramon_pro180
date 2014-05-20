@@ -3,7 +3,6 @@ package pieces;
 public abstract class Piece 
 {
 	public boolean isWhite;
-	public PieceType pieceType;
 	public String name;
 	
 	public String getName()

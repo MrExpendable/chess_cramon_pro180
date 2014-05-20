@@ -3,19 +3,54 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import pieces.Bishop;
+import pieces.King;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
 import board.Chessboard;
+import board.Location;
 
 public class FileParser 
 {
-	private Chessboard board;
-	
-	public FileParser()
+	//Fills the chessboard
+	public void fillBoard(Chessboard board, Location loc, boolean isPieceWhite, String pieceType)
 	{
-		board = new Chessboard();
+		//Bishop
+		if(pieceType.contains("B"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Bishop(isPieceWhite));
+		}
+		//King
+		else if(pieceType.contains("K"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new King(isPieceWhite));
+		}
+		//Knight
+		else if(pieceType.contains("N"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Knight(isPieceWhite));
+		}
+		//Queen
+		else if(pieceType.contains("Q"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Queen(isPieceWhite));
+		}
+		//Rook
+		else if(pieceType.contains("R"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Rook(isPieceWhite));
+		}
+		//Pawn
+		else if(pieceType.contains("P"))
+		{
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Pawn(isPieceWhite));
+		}
 	}
 	
 	//Parses placement
-	public void parsePiecePlacement(ArrayList<String> placements)
+	public Chessboard parsePiecePlacement(ArrayList<String> placements, Chessboard board)
 	{
 		Pattern placement = Pattern.compile("(?<piece>[BKNPQR][dl])(?<position>[a-hA-H][1-8])");
 		System.out.println("Searching for piece placements...");
@@ -28,11 +63,15 @@ public class FileParser
 				String parsedPosition = matcher.group("position");
 				boolean isPieceWhite = parsedPiece.contains("l") ? true : false;
 				
-				board.fillBoard(parsedPosition, isPieceWhite, parsedPiece);
+				fillBoard(board, new Location(parsedPosition), isPieceWhite, parsedPiece);
 				
 				//System.out.printf("%s to be placed at %s%n", parsedPiece, parsedPosition);
 			}
 		}
+		
+		System.out.println("Ending piece placement parsing");
+		
+		return board;
 	}
 	
 	//Parses movement

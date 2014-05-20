@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class FileIO
 {
 	//Reads file in and calls parsing methods
-	public void readFile(String filePath)
+	public ArrayList<String> readFile(String filePath)
 	{
 		ArrayList<String> parsedList = new ArrayList<String>();
 		try
@@ -22,14 +22,12 @@ public class FileIO
 			    parsedList.add(read);
 			    read = br.readLine();
 			}
-			
-			FileParser parser = new FileParser();
-			
-			parser.parsePiecePlacement(parsedList);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		
+		return parsedList;
     }
 }
