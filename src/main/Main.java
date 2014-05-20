@@ -1,6 +1,5 @@
 package main;
 import game.GameManager;
-import io.FileIO;
 
 public class Main 
 {	
@@ -9,6 +8,7 @@ public class Main
 		if(args != null)
 		{
 			GameManager gm = new GameManager(args[0]);
+			gm.runGame();
 		}
 		else
 		{

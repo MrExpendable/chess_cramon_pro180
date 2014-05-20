@@ -1,7 +1,5 @@
 package board;
 
-import pieces.*;
-
 public class Chessboard 
 {
 	private Square[][] squares;

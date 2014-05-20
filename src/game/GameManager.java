@@ -11,7 +11,6 @@ public class GameManager
 	{
 		game = new Game();
 		game.startGame(path);
-		runGame();
 	}
 	
 	public void runGame()
