@@ -16,4 +16,9 @@ public abstract class Piece
 			return "d" + name;
 		}
 	}
+
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow) 
+	{
+		return false;
+	}
 }

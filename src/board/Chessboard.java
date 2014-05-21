@@ -28,6 +28,33 @@ public class Chessboard
 		return squares;
 	}
 	
+	//Moves a piece on the board
+	public void movePiece(Location init, Location fin)
+	{
+		int initCol = init.getColumn();
+		int initRow = init.getRow();
+		int finCol = fin.getColumn();
+		int finRow = fin.getRow();
+		Square currentSpace = squares[initRow][initCol];
+		
+		if(currentSpace.getPiece() != null)
+		{
+			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			{
+				squares[finRow][finCol] = currentSpace;
+				currentSpace = null;
+			}
+			else
+			{
+				System.out.println("Piece can't move there");
+			}
+		}
+		else
+		{
+			System.out.println("No piece in that spot to move");
+		}
+	}
+	
 	//Print the board
 	public void printBoard()
 	{

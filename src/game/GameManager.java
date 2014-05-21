@@ -1,15 +1,15 @@
 package game;
 
-import java.util.Scanner;
-
 public class GameManager 
 {
 	private Game game;
+	private Player player1;
 	private boolean isRunning = true;
 	
 	public GameManager(String path)
 	{
 		game = new Game();
+		player1 = new Player();
 		game.startGame(path);
 	}
 	
@@ -17,10 +17,8 @@ public class GameManager
 	{
 		while(isRunning)
 		{
-			System.out.println("Choose");
-			Scanner scan = new Scanner(System.in);
-			String userInput = scan.nextLine();
-			System.out.println(userInput);
+			player1.takeTurn(game.getBoard());
+			game.getBoard().printBoard();
 		}
 	}
 }

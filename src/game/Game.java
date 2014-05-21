@@ -1,9 +1,11 @@
 package game;
 
 import java.util.ArrayList;
+
 import io.FileIO;
 import io.FileParser;
 import board.Chessboard;
+import board.Square;
 
 public class Game
 {
@@ -24,5 +26,10 @@ public class Game
 		parser.parsePiecePlacement(piecePlacements, board);
 		
 		board.printBoard();
+	}
+	
+	public Chessboard getBoard()
+	{
+		return board;
 	}
 }
