@@ -42,7 +42,7 @@ public class Chessboard
 			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
 			{
 				squares[finRow][finCol] = currentSpace;
-				currentSpace = null;
+				squares[initRow][initCol] = new Square();
 			}
 			else
 			{
@@ -53,6 +53,8 @@ public class Chessboard
 		{
 			System.out.println("No piece in that spot to move");
 		}
+		
+		System.out.println("Moved a piece successfully");
 	}
 	
 	//Print the board
