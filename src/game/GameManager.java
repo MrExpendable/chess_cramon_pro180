@@ -15,6 +15,7 @@ public class GameManager
 	
 	public void runGame()
 	{
+		//Include forfeit method, like making the king kill itself
 		while(isRunning)
 		{
 			player1.takeTurn(game.getBoard());

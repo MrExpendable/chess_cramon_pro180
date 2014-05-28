@@ -1,5 +1,7 @@
 package board;
 
+import pieces.Piece;
+
 public class Chessboard 
 {
 	private Square[][] squares;
@@ -36,12 +38,13 @@ public class Chessboard
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
 		Square currentSpace = squares[initRow][initCol];
+		Piece currentPiece = currentSpace.getPiece();
 		
-		if(currentSpace.getPiece() != null)
+		if(currentPiece != null)
 		{
-			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow))
 			{
-				squares[finRow][finCol].setPiece(currentSpace.getPiece());
+				squares[finRow][finCol].setPiece(currentPiece);
 				squares[initRow][initCol].setPiece(null);
 			}
 			else
