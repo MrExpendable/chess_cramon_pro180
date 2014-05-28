@@ -40,18 +40,18 @@ public class Player
 		Pattern movement = Pattern.compile("(?<finalPosition>[a-hA-H][1-8])");
 		Matcher matcher = playerChoice.matcher(choosePiece);
 		
+		//if player doesn't provide correct input for choosing a piece
 		if(!matcher.find())
 		{
-			//if input is invalid
 			return false;
 		}
 		
 		matcher.reset();
 		matcher = movement.matcher(makeMove);
 		
+		//if player doesn't provide correct input for making a move with the piece
 		if(!matcher.find())
 		{
-			//if input is invalid
 			return false;
 		}
 		

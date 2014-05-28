@@ -41,8 +41,8 @@ public class Chessboard
 		{
 			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
 			{
-				squares[finRow][finCol] = currentSpace;
-				squares[initRow][initCol] = new Square();
+				squares[finRow][finCol].setPiece(currentSpace.getPiece());
+				squares[initRow][initCol].setPiece(null);
 			}
 			else
 			{
