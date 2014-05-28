@@ -7,4 +7,10 @@ public class Pawn extends Piece
 		isWhite = isPieceWhite;
 		name = "P";
 	}
+	
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow)
+	{
+		//IMPLEMENT MOVEMENT LOGIC IN MODULE 4
+		return true;
+	}
 }

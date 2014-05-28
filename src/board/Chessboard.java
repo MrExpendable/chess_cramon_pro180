@@ -53,8 +53,6 @@ public class Chessboard
 		{
 			System.out.println("No piece in that spot to move");
 		}
-		
-		System.out.println("Moved a piece successfully");
 	}
 	
 	//Print the board
