@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Chessboard;
+
 public abstract class Piece 
 {
 	public boolean isWhite;
@@ -17,5 +19,5 @@ public abstract class Piece
 		}
 	}
 
-	public abstract boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow);
+	public abstract boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard);
 }

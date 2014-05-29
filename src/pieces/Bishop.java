@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Chessboard;
+
 public class Bishop extends Piece
 {
 	public Bishop(boolean isPieceWhite)
@@ -8,9 +10,10 @@ public class Bishop extends Piece
 		name = "B";
 	}
 	
-	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow)
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		final int MAXBOUNDS = 8;
-		return (toCol != fromCol && fromRow != toRow && ((Math.abs(toRow - fromRow) == Math.abs(toCol - fromCol)) || Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)));
+		return (toCol != fromCol && fromRow != toRow && ((Math.abs(toRow - fromRow) == Math.abs(toCol - fromCol)) || 
+				Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)));
 	}
 }

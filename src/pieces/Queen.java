@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Chessboard;
+
 public class Queen extends Piece
 {
 	public Queen(boolean isPieceWhite)
@@ -8,7 +10,7 @@ public class Queen extends Piece
 		name = "Q";
 	}
 	
-	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow)
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		final int MAXBOUNDS = 8;
 		return ((fromRow == toRow && Math.abs(fromCol - toCol) <= MAXBOUNDS && Math.abs(fromCol - toCol) > 0) || 

@@ -30,8 +30,8 @@ public class Chessboard
 		return squares;
 	}
 	
-	//Moves a piece on the board
-	public void movePiece(Location init, Location fin)
+	//Moves a piece on the board, returns true if successful, false if not
+	public boolean movePiece(Location init, Location fin)
 	{
 		int initCol = init.getColumn();
 		int initRow = init.getRow();
@@ -42,19 +42,22 @@ public class Chessboard
 		
 		if(currentPiece != null)
 		{
-			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow))
+			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this))
 			{
 				squares[finRow][finCol].setPiece(currentPiece);
 				squares[initRow][initCol].setPiece(null);
+				return true;
 			}
 			else
 			{
 				System.out.println("Piece can't move there");
+				return false;
 			}
 		}
 		else
 		{
 			System.out.println("No piece in that spot to move");
+			return false;
 		}
 	}
 	
