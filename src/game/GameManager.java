@@ -42,4 +42,14 @@ public class GameManager
 			game.getBoard().printBoard();
 		}
 	}
+	
+	public boolean isWhiteKingInCheck()
+	{
+		return false;
+	}
+	
+	public boolean isBlackKingInCheck()
+	{
+		return false;
+	}
 }
