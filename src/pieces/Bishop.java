@@ -13,7 +13,17 @@ public class Bishop extends Piece
 	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		final int MAXBOUNDS = 8;
-		return (toCol != fromCol && fromRow != toRow && ((Math.abs(toRow - fromRow) == Math.abs(toCol - fromCol)) || 
-				Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)));
+		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();
+		
+		//If piece at end position is of its own color, can't move there
+		if(pieceAtLocation != null && pieceAtLocation.isWhite == isWhite)
+		{
+			return false;
+		}
+		else
+		{
+			return (toCol != fromCol && fromRow != toRow && ((Math.abs(toRow - fromRow) == Math.abs(toCol - fromCol)) || 
+					Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)));
+		}
 	}
 }

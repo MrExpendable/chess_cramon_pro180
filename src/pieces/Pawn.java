@@ -83,8 +83,8 @@ public class Pawn extends Piece
 						return false;
 					}
 				}
-				//if position to move to has a piece to capture
-				else if(pieceToCapture != null)
+				//if position to move to has a piece to capture and it isn't a piece of its own color
+				else if(pieceToCapture != null && pieceToCapture.isWhite != isWhite)
 				{
 					//if pawn can capture piece
 					if(Math.abs(fromCol - toCol) == 1 && (toRow - fromRow) == 1)
@@ -117,8 +117,8 @@ public class Pawn extends Piece
 						return false;
 					}
 				}
-				//else if there's a piece in the final position
-				else if(pieceToCapture != null)
+				//else if there's a piece in the final position and it isn't of its own color
+				else if(pieceToCapture != null && pieceToCapture.isWhite != isWhite)
 				{
 					if(Math.abs(fromCol - toCol) == 1 && (fromRow - toRow) == 1)
 					{

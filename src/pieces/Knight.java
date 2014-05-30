@@ -10,16 +10,19 @@ public class Knight extends Piece
 		name = "N";
 	}
 	
-	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow)
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
-		return ((Math.abs(fromCol - toCol) == 2 && Math.abs(fromRow - toRow) == 1) ||
-				(Math.abs(fromCol - toCol) == 1 && Math.abs(fromRow - toRow) == 2));
-	}
-
-	@Override
-	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow,
-			Chessboard copyBoard) {
-		// TODO Auto-generated method stub
-		return false;
+		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();
+		
+		//If piece at end position is of its own color, can't move there
+		if(pieceAtLocation != null && pieceAtLocation.isWhite == isWhite)
+		{
+			return false;
+		}
+		else
+		{
+			return ((Math.abs(fromCol - toCol) == 2 && Math.abs(fromRow - toRow) == 1) ||
+					(Math.abs(fromCol - toCol) == 1 && Math.abs(fromRow - toRow) == 2));
+		}
 	}
 }

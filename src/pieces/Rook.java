@@ -13,7 +13,16 @@ public class Rook extends Piece
 	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		final int MAXBOUNDS = 8;
-		return (fromRow == toRow && Math.abs(fromCol - toCol) <= MAXBOUNDS) && Math.abs(fromCol - toCol) > 0 
-				|| (fromCol == toCol && Math.abs(fromRow - toRow) <= MAXBOUNDS) && Math.abs(fromRow - toRow) > 0;
+		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();
+		
+		if(pieceAtLocation != null && pieceAtLocation.isWhite == isWhite)
+		{
+			return false;
+		}
+		else
+		{
+			return (fromRow == toRow && Math.abs(fromCol - toCol) <= MAXBOUNDS) && Math.abs(fromCol - toCol) > 0 
+					|| (fromCol == toCol && Math.abs(fromRow - toRow) <= MAXBOUNDS) && Math.abs(fromRow - toRow) > 0;
+		}
 	}
 }
