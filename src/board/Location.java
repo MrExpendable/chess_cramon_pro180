@@ -12,6 +12,12 @@ public class Location
 		row = Character.getNumericValue(pos.charAt(1)) - 1;
 	}
 	
+	public Location(int col, int row) 
+	{
+		this.col = col;
+		this.row = row;
+	}
+
 	public int getColumn()
 	{
 		return col;

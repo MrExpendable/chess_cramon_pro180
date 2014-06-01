@@ -24,6 +24,20 @@ public class Chessboard
 		}
 	}
 	
+	//Used for creating a copy of the chessboard so as not to modify the game
+	public Chessboard(Chessboard toCopy)
+	{
+		squares = new Square[BOARD_LENGTH][BOARD_LENGTH];
+		
+		for(int i = 0; i < BOARD_LENGTH; i++)
+		{
+			for(int j = 0; j < BOARD_LENGTH; j++)
+			{
+				squares[i][j] = toCopy.squares[i][j];
+			}
+		}
+	}
+	
 	//Return the board
 	public Square[][] getSquares()
 	{
@@ -57,6 +71,33 @@ public class Chessboard
 		else
 		{
 			System.out.println("No piece in that spot to move");
+			return false;
+		}
+	}
+	
+	//THIS METHOD IS USED TO DETECT CHECK
+	public boolean testMovePiece(Location init, Location fin)
+	{
+		int initCol = init.getColumn();
+		int initRow = init.getRow();
+		int finCol = fin.getColumn();
+		int finRow = fin.getRow();
+		Square currentSpace = squares[initRow][initCol];
+		Piece currentPiece = currentSpace.getPiece();
+		
+		if(currentPiece != null)
+		{
+			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
 			return false;
 		}
 	}
