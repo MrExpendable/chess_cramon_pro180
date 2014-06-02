@@ -15,6 +15,7 @@ public class Rook extends Piece
 		final int MAXBOUNDS = 8;
 		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();
 		
+		//if there's a piece at the end destination and it's the same color
 		if(pieceAtLocation != null && pieceAtLocation.isWhite == isWhite)
 		{
 			return false;

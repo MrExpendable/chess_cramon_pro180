@@ -1,6 +1,6 @@
 package board;
 
-import pieces.Piece;
+import pieces.*;
 
 public class Chessboard 
 {
@@ -51,20 +51,29 @@ public class Chessboard
 		int initRow = init.getRow();
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
-		//Square currentSpace = squares[initRow][initCol];
 		Piece currentPiece = squares[initRow][initCol].getPiece();
 		
+		//if there's a piece in the current space
 		if(currentPiece != null)
 		{
-			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this))
+			//if it isn't obstructed by any other pieces along its path
+			if(!isPieceObstructed(init, fin, squares, currentPiece))
 			{
-				squares[finRow][finCol].setPiece(currentPiece);
-				squares[initRow][initCol].setPiece(null);
-				return true;
+				if(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this))
+				{
+					squares[finRow][finCol].setPiece(currentPiece);
+					squares[initRow][initCol].setPiece(null);
+					return true;
+				}
+				else
+				{
+					System.out.println("Piece can't move there");
+					return false;
+				}
 			}
 			else
 			{
-				System.out.println("Piece can't move there");
+				System.out.println("There's a piece in the way");
 				return false;
 			}
 		}
@@ -86,6 +95,75 @@ public class Chessboard
 		Piece currentPiece = squares[initRow][initCol].getPiece();
 		
 		return (currentPiece != null) && (currentPiece.isValidMove(initCol, initRow, finCol, finRow, this));
+	}
+	
+	//Checks if a piece is obstructed along its move path
+	public boolean isPieceObstructed(Location init, Location fin, Square[][] obstructedBoard, Piece pieceToCheck)
+	{
+		//I'm thinking that I should take the locations, subtract the columns and rows from final and initial positions, then iterate over the differences
+		//Once I'm iterating over the differences, I check if there's a piece in a specific space
+		//If there's a piece, return true, but if it's empty, return false
+		
+		Location greaterLoc, lesserLoc;
+		
+		if((init.getColumn() + init.getRow()) > (fin.getColumn() + fin.getRow()))
+		{
+			greaterLoc = init;
+			lesserLoc = fin;
+		}
+		else
+		{
+			greaterLoc = fin;
+			lesserLoc = init;
+		}
+		
+		//doesn't break, but dark bishop and dark queen can move somewhere they shouldn't be allowed to move on their first moves
+		//it only happens when trying to move up and right
+		int colDif = greaterLoc.getColumn() - lesserLoc.getColumn();
+		int rowDif = greaterLoc.getRow() - lesserLoc.getRow();
+		boolean isObstructed = false;
+		
+		//if the piece isn't a knight
+		if(!(pieceToCheck instanceof Knight))
+		{
+			//for cardinal movement(up/down/left/right)
+			if(colDif > 0)
+			{
+				for(int i = 1; i < colDif; i++)
+				{
+					if(obstructedBoard[greaterLoc.getRow()][greaterLoc.getColumn() - i].getPiece() != null
+							&& obstructedBoard[greaterLoc.getRow()][greaterLoc.getColumn() - i].getPiece() != pieceToCheck)
+					{
+						isObstructed = true;
+					}
+				}
+			}
+			else if(rowDif > 0)
+			{
+				for(int i = 1; i < rowDif; i++)
+				{
+					if((obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn()].getPiece() != null)
+							&& (obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn()].getPiece() != pieceToCheck))
+					{
+						isObstructed = true;
+					}
+				}
+			}
+			//for ordinal movement(diagonal)
+			else if(colDif > 0 && rowDif > 0)
+			{
+				for(int i = 1; i < colDif; i++)
+				{
+					if((obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn() - i].getPiece() != null)
+							&& (obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn() - i].getPiece() != pieceToCheck))
+					{
+						isObstructed = true;
+					}
+				}
+			}
+		}
+		
+		return isObstructed;
 	}
 	
 	//Print the board
