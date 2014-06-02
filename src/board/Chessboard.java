@@ -51,8 +51,8 @@ public class Chessboard
 		int initRow = init.getRow();
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
-		Square currentSpace = squares[initRow][initCol];
-		Piece currentPiece = currentSpace.getPiece();
+		//Square currentSpace = squares[initRow][initCol];
+		Piece currentPiece = squares[initRow][initCol].getPiece();
 		
 		if(currentPiece != null)
 		{
@@ -75,31 +75,17 @@ public class Chessboard
 		}
 	}
 	
-	//THIS METHOD IS USED TO DETECT CHECK
-	public boolean testMovePiece(Location init, Location fin)
+	//Detects check
+	public boolean detectCheck(Location init, Location fin)
 	{
 		int initCol = init.getColumn();
 		int initRow = init.getRow();
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
-		Square currentSpace = squares[initRow][initCol];
-		Piece currentPiece = currentSpace.getPiece();
 		
-		if(currentPiece != null)
-		{
-			if(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this))
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
+		Piece currentPiece = squares[initRow][initCol].getPiece();
+		
+		return (currentPiece != null) && (currentPiece.isValidMove(initCol, initRow, finCol, finRow, this));
 	}
 	
 	//Print the board
