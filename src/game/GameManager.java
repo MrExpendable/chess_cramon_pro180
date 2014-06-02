@@ -41,6 +41,10 @@ public class GameManager
 			}
 			else
 			{
+				if(isBlackKingInCheck())
+				{
+					System.out.println("Player 2, your king is in check.");
+				}
 				System.out.println("Player 2's turn");
 				if(player2.takeTurn(game.getBoard()))
 				{
@@ -90,28 +94,45 @@ public class GameManager
 		{
 			for(int j = 0; j < BOARD_LENGTH; j++)
 			{
-				//If there's a piece there
-				if(squaresCopy[j][i].getPiece() != null)
+				//If there's a piece there and piece is not white
+				if(squaresCopy[j][i].getPiece() != null && !squaresCopy[j][i].getPiece().isWhite)
 				{
-					//if piece and king are not same color
-					if(!squaresCopy[j][i].getPiece().isWhite)
+					//if piece can move to king
+					if(chessboardCopy.testMovePiece(new Location(j, i), whiteKingLoc))
 					{
-						//if piece can move to king
-						if(chessboardCopy.testMovePiece(new Location(j, i), whiteKingLoc))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}
 		}
+		//return false if white king isn't found to be in check
 		return false;
-		
-		//create a new king, get its location, and send its location to all pieces that arent its color to see if they can cap him?
 	}
 	
 	public boolean isBlackKingInCheck()
 	{
+		//Create copies of the board at its current state so that I'm not modifying the game
+		Chessboard chessboardCopy = new Chessboard(game.getBoard());
+		board.Square[][] squaresCopy = chessboardCopy.getSquares();
+		
+		Location blackKingLoc = getKingLocation(chessboardCopy, false);
+		
+		for(int i = 0; i < BOARD_LENGTH; i++)
+		{
+			for(int j = 0; j < BOARD_LENGTH; j++)
+			{
+				//If there's a piece there and piece is white
+				if(squaresCopy[j][i].getPiece() != null && squaresCopy[j][i].getPiece().isWhite)
+				{
+					//if piece can move to king
+					if(chessboardCopy.testMovePiece(new Location(j, i), blackKingLoc))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		//return false if black king isn't found to be in check
 		return false;
 	}
 }
