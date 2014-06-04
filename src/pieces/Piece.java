@@ -20,4 +20,5 @@ public abstract class Piece
 	}
 
 	public abstract boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard);
+	public abstract boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard);
 }

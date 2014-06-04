@@ -27,7 +27,7 @@ public class GameManager
 			//if player 1's turn
 			if(isPlayer1Turn)
 			{
-				//Check for check
+				//Detect check here
 				if(isKingInCheck(true))
 				{
 					System.out.println("Player 1, your king is in check.");

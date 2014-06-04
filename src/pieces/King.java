@@ -10,6 +10,12 @@ public class King extends Piece
 		name = "K";
 	}
 	
+	//find some way to not use this, same as knight
+	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
+	{
+		return false;
+	}
+	
 	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();

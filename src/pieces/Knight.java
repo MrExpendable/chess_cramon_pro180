@@ -10,6 +10,12 @@ public class Knight extends Piece
 		name = "N";
 	}
 	
+	//find some way to not use this, instead just make it so that knight ignores collision
+	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
+	{
+		return false;
+	}
+	
 	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		Piece pieceAtLocation = copyBoard.getSquares()[toRow][toCol].getPiece();

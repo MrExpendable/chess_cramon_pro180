@@ -12,6 +12,44 @@ public class Pawn extends Piece
 		name = "P";
 	}
 	
+	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
+	{
+		board.Square[][] squares = copyBoard.getSquares();
+		//if hasn't moved and can move 2 spaces, check for obstruction depending on whether it's a white piece or not
+		if(!hasMoved)
+		{
+			if(isWhite)
+			{
+				for(int i = 0; i < (toRow - fromRow); i++)
+				{
+					if(squares[fromRow + i][fromCol].getPiece() != null)
+					{
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			else
+			{
+				for(int i = 1; i < (fromRow - toRow); i++)
+				{
+					if(squares[fromRow - i][fromCol].getPiece() != null)
+					{
+						return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		//otherwise, just return false cause it can only move one space anyways
+		else
+		{
+			return false;
+		}
+	}
+	
 	//Checks if pawn's first move is valid
 	public boolean isValidFirstMove(int fromCol, int fromRow, int toCol, int toRow)
 	{

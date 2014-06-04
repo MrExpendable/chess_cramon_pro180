@@ -1,0 +1,60 @@
+Bishop
+
+B lf5
+P lg4
+P lg6
+P le4
+P le6
+B dc3
+P dd2
+P dd4
+P db2
+P db4
+
+
+Pawn
+
+P lb2
+P lb3
+P df7
+P df6
+
+
+Queen
+
+Q lf5
+P lg4
+P lg6
+P le4
+P le6
+P lf4
+P lf6
+P lg5
+P le5
+
+Q dc3
+P dc2
+P dc4
+P dd4
+p db4
+P dd2
+P dd4
+P db2
+P db4
+P dd3
+P db3
+
+
+Rook
+
+Rlf5
+Plf4
+Plf6
+Plg5
+Ple5
+
+Rdc3
+Pdc2
+Pdc4
+Pdd3
+Pdb3
