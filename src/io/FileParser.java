@@ -20,32 +20,32 @@ public class FileParser
 		//Bishop
 		if(pieceType.contains("B"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Bishop(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Bishop(isPieceWhite, loc));
 		}
 		//King
 		else if(pieceType.contains("K"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new King(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new King(isPieceWhite, loc));
 		}
 		//Knight
 		else if(pieceType.contains("N"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Knight(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Knight(isPieceWhite, loc));
 		}
 		//Queen
 		else if(pieceType.contains("Q"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Queen(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Queen(isPieceWhite, loc));
 		}
 		//Rook
 		else if(pieceType.contains("R"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Rook(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Rook(isPieceWhite, loc));
 		}
 		//Pawn
 		else if(pieceType.contains("P"))
 		{
-			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Pawn(isPieceWhite));
+			board.getSquares()[loc.getRow()][loc.getColumn()].setPiece(new Pawn(isPieceWhite, loc));
 		}
 	}
 	

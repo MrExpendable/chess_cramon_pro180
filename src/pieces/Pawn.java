@@ -1,6 +1,7 @@
 package pieces;
 
 import board.Chessboard;
+import board.Location;
 
 public class Pawn extends Piece
 {
@@ -12,6 +13,13 @@ public class Pawn extends Piece
 		name = "P";
 	}
 	
+	public Pawn(boolean isPieceWhite, Location l)
+	{
+		isWhite = isPieceWhite;
+		location = l;
+		name = "P";
+	}
+	
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		board.Square[][] squares = copyBoard.getSquares();
@@ -20,7 +28,7 @@ public class Pawn extends Piece
 		{
 			if(isWhite)
 			{
-				for(int i = 0; i < (toRow - fromRow); i++)
+				for(int i = 1; i < (toRow - fromRow); i++)
 				{
 					if(squares[fromRow + i][fromCol].getPiece() != null)
 					{

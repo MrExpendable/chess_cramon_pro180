@@ -63,6 +63,7 @@ public class Chessboard
 				{
 					squares[finRow][finCol].setPiece(currentPiece);
 					squares[initRow][initCol].setPiece(null);
+					currentPiece.setLocation(new Location(finRow, finCol));
 					return true;
 				}
 				else
@@ -92,6 +93,20 @@ public class Chessboard
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
 		
+		Piece currentPiece = squares[initRow][initCol].getPiece();
+		
+		return (currentPiece != null) && 
+				(!currentPiece.isMoveObstructed(initCol, initRow, finCol, finRow, this)) && 
+						(currentPiece.isValidMove(initCol, initRow, finCol, finRow, this));
+	}
+	
+	//Temporarily implementing this method so that I don't have to see a bunch of "can't move there" or "no piece in that spot" in the console
+	public boolean canKingEscape(Location init, Location fin)
+	{
+		int initCol = init.getColumn();
+		int initRow = init.getRow();
+		int finCol = fin.getColumn();
+		int finRow = fin.getRow();
 		Piece currentPiece = squares[initRow][initCol].getPiece();
 		
 		return (currentPiece != null) && 

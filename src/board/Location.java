@@ -27,4 +27,10 @@ public class Location
 	{
 		return row;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "Column: " + (col + 1) + "  Row: " + (row + 1) + "\n";
+	}
 }

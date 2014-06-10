@@ -1,12 +1,20 @@
 package pieces;
 
 import board.Chessboard;
+import board.Location;
 
 public class Bishop extends Piece
 {
 	public Bishop(boolean isPieceWhite)
 	{
 		isWhite = isPieceWhite;
+		name = "B";
+	}
+	
+	public Bishop(boolean isPieceWhite, Location l)
+	{
+		isWhite = isPieceWhite;
+		location = l;
 		name = "B";
 	}
 	
