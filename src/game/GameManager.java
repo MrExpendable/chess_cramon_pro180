@@ -220,12 +220,11 @@ public class GameManager
 				if(p.isValidMove(initCol, initRow, finCol, finRow, board))
 				{
 					//force piece back to its original location, not by movement, because movement logic still applies in this case
-					//remember to make sure to undo capturing
 					//move, unmove, then check if king is not in check
 					Piece endPiece = board.getSquares()[finRow][finCol].getPiece();
 					board.getSquares()[finRow][finCol].setPiece(p);
 					board.getSquares()[initRow][initCol].setPiece(null);
-					boolean inCheck = !isKingInCheck(isWhite);
+					boolean inCheck = isKingInCheck(isWhite);
 					board.getSquares()[initRow][initCol].setPiece(p);
 					board.getSquares()[finRow][finCol].setPiece(endPiece);
 					if(!inCheck)
