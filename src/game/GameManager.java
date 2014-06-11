@@ -37,14 +37,8 @@ public class GameManager
 				if(isKingInCheck(true))
 				{
 					System.out.println("Player 1, your king is in check.");
-//					if(isKingInCheckmate(true))
-//					{
-//						System.out.println("Sorry Player 1, but your king is checkmated. Player 2 wins!");
-//						isRunning = !isRunning;
-//						break;
-//					}
+					
 					ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
-					//ArrayList<Piece> offendingPieces = getOffendingPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
 					if(isInCheckmate(player1.isPlayerWhite(), game.getBoard(), friendlyPieces))
 					{
 						System.out.println("Player 1, your king is checkmated. Player 2 wins.");
@@ -58,15 +52,6 @@ public class GameManager
 				if(player1.takeTurn(game.getBoard()))
 				{
 					isPlayer1Turn = !isPlayer1Turn;
-					
-					//after player 1's turn, see if the king is in checkmate
-//					ArrayList<Piece> offendingPieces = getOffendingPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
-//					if(isInCheckmate(player1.isPlayerWhite(), game.getBoard(), offendingPieces))
-//					{
-//						System.out.println("Player 1, your king is checkmated. Player 2 wins.");
-//						isRunning = !isRunning;
-//						break;
-//					}
 				}
 			}
 			else
@@ -74,14 +59,8 @@ public class GameManager
 				if(isKingInCheck(false))
 				{
 					System.out.println("Player 2, your king is in check.");
-//					if(isKingInCheckmate(false))
-//					{
-//						System.out.println("Sorry Player 2, but your king is checkmated. Player 1 wins!");
-//						isRunning = !isRunning;
-//						break;
-//					}
+					
 					ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
-					//ArrayList<Piece> offendingPieces = getOffendingPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
 					if(isInCheckmate(player2.isPlayerWhite(), game.getBoard(), friendlyPieces))
 					{
 						System.out.println("Player 2, your king is checkmated. Player 1 wins.");
@@ -94,15 +73,6 @@ public class GameManager
 				if(player2.takeTurn(game.getBoard()))
 				{
 					isPlayer1Turn = !isPlayer1Turn;
-					
-					//after player 2's turn, see if the king is in checkmate
-//					ArrayList<Piece> offendingPieces = getOffendingPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
-//					if(isInCheckmate(player2.isPlayerWhite(), game.getBoard(), offendingPieces))
-//					{
-//						System.out.println("Player 2, your king is checkmated. Player 1 wins.");
-//						isRunning = !isRunning;
-//						break;
-//					}
 				}
 			}
 			
@@ -159,7 +129,7 @@ public class GameManager
 	}
 	
 	//Get list of all pieces that could capture king
-	public ArrayList<Piece> getFriendlyPieces(board.Square[][] squaresCopy, boolean isWhite)
+	public ArrayList<Piece> getFriendlyPieces(board.Square[][] squaresCopy, boolean isPieceWhite)
 	{
 		ArrayList<Piece> toReturn = new ArrayList<Piece>();
 		
@@ -169,7 +139,7 @@ public class GameManager
 			{
 				Piece currentPiece = squaresCopy[j][i].getPiece();
 				//If the space doesn't have a piece or if the space has a piece that isn't its color
-				if(currentPiece != null && currentPiece.isWhite == isWhite)
+				if(currentPiece != null && currentPiece.isWhite == isPieceWhite)
 				{
 					toReturn.add(currentPiece);
 				}
@@ -177,102 +147,6 @@ public class GameManager
 		}
 		
 		return toReturn;
-	}
-	
-//	//Detect if an opposing piece can move into a king's safe areas
-//	public ArrayList<Location> canOpposingPieceCaptureKing(ArrayList<Location> possibleSafeAreas, ArrayList<Location> actualSafeAreas, ArrayList<Piece> offendingPieces)
-//	{
-//		ArrayList<Location> toReturn = new ArrayList<Location>();
-//		
-//		//for every location
-//		for(Location l : possibleSafeAreas)
-//		{
-//			//for every piece
-//			for(Piece p : offendingPieces)
-//			{
-//				//if this piece
-//			}
-//		}
-//		
-//		return toReturn;
-//	}
-	
-//	public boolean evaluateCheckmate(ArrayList<Location> possibleSafeAreas, ArrayList<Piece> offendingPieces)
-//	{
-//		for(Location l : possibleSafeAreas)
-//	    {
-//	    	for(Piece p : offendingPieces)
-//	    	{
-//	    		Location pieceLoc = p.getLocation();
-//	    		if(p.isValidMove(pieceLoc.getColumn(), pieceLoc.getRow(), l.getColumn(), l.getRow(), game.getBoard()))
-//	    		{
-//	    			possibleSafeAreas.remove(l);
-//	    		}
-//	    	}
-//	    	System.out.printf("Safe areas for king to move to - %s%n", l.toString());
-//	    }
-//	}
-	
-	//Detect whether a king is in checkmate or not
-	public boolean isKingInCheckmate(boolean isKingWhite)
-	{
-		/*
-		 * Ideas for checkmate
-		 * After a piece moves, check for checkmate depending on that piece's color
-		 * For each piece of that color
-		 * For each possible move of that piece
-		 * Try and move that piece
-		 * If the king isn't in check, then the king isn't in checkmate
-		 * Reset the move
-		 */
-		//Create copies of the board at its current state so that I'm not modifying the game
-		Chessboard chessboardCopy = new Chessboard(game.getBoard());
-		board.Square[][] squaresCopy = chessboardCopy.getSquares();
-		
-		Location kingLoc = getKingLocation(isKingWhite);
-		ArrayList<Piece> offendingPieces = getOffendingPieces(squaresCopy, isKingWhite);
-		ArrayList<Piece> friendlyPieces = getFriendlyPieces(squaresCopy, isKingWhite);
-		ArrayList<Location> possibleSafeAreas = getSafeAreas(squaresCopy, kingLoc, isKingWhite);
-		//I'm using addAll to prevent a ConcurrentModificationException, since setting the safeAreas ArrayList to possibleSafeAreas causes this exception
-		ArrayList<Location> safeAreas = new ArrayList<Location>();
-		safeAreas.addAll(possibleSafeAreas);
-		
-		//if there are some safe areas
-		//set the king's current space to null to avoid obstruction
-		squaresCopy[kingLoc.getRow()][kingLoc.getColumn()].setPiece(null);
-		for(Location l : possibleSafeAreas)
-	    {
-	    	for(Piece p : offendingPieces)
-	    	{
-	    		Location pieceLoc = p.getLocation();
-	    		//if the piece can move there, remove the location from the safe areas
-	    		if(p.isValidMove(pieceLoc.getColumn(), pieceLoc.getRow(), l.getColumn(), l.getRow(), game.getBoard()))
-	    		{
-	    			safeAreas.remove(l);
-	    		}
-	    	}
-	    }
-		//set the king's space back to a king
-		squaresCopy[kingLoc.getRow()][kingLoc.getColumn()].setPiece(new pieces.King(isKingWhite, kingLoc));
-		
-		//if there are safe areas, print them out and return false
-		if(!safeAreas.isEmpty())
-		{
-			System.out.println("Safe areas for king to move to: ");
-			for(Location l : safeAreas)
-			{
-				l.toString();
-			}
-			
-			return false;
-		}
-		else
-		{
-			System.out.println("No safe areas available for the king to move to, checking to see if a friendly piece can prevent checkmate...");
-			//see if any friendly pieces can move to help the king
-		}
-	    
-		return false;
 	}
 	
 	//Returns a king's location
@@ -337,23 +211,27 @@ public class GameManager
 			ArrayList<Location> friendlyPieceMoves = getAvailableMoves(p, board);
 			for(Location l : friendlyPieceMoves)
 			{
-//				board.movePiece(p.getLocation(), l);
-//				if(!isKingInCheck(isWhite))
-//				{
-//					board.movePiece(l, p.getLocation());
-//					return false;
-//				}
-//				board.movePiece(l, p.getLocation());
 				Location initialPieceLocation = p.getLocation();
-				if(p.isValidMove(initialPieceLocation.getColumn(), initialPieceLocation.getRow(), l.getColumn(), l.getRow(), board))
+				int initRow = initialPieceLocation.getRow();
+				int initCol = initialPieceLocation.getColumn();
+				int finRow = l.getRow();
+				int finCol = l.getColumn();
+				
+				if(p.isValidMove(initCol, initRow, finCol, finRow, board))
 				{
-					board.movePiece(initialPieceLocation, l);
-					if(!isKingInCheck(isWhite))
+					//force piece back to its original location, not by movement, because movement logic still applies in this case
+					//remember to make sure to undo capturing
+					//move, unmove, then check if king is not in check
+					Piece endPiece = board.getSquares()[finRow][finCol].getPiece();
+					board.getSquares()[finRow][finCol].setPiece(p);
+					board.getSquares()[initRow][initCol].setPiece(null);
+					boolean inCheck = !isKingInCheck(isWhite);
+					board.getSquares()[initRow][initCol].setPiece(p);
+					board.getSquares()[finRow][finCol].setPiece(endPiece);
+					if(!inCheck)
 					{
-						board.movePiece(p.getLocation(), initialPieceLocation);
 						return false;
 					}
-					board.movePiece(p.getLocation(), initialPieceLocation);
 				}
 			}
 		}
