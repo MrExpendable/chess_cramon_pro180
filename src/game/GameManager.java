@@ -216,20 +216,22 @@ public class GameManager
 				int initCol = initialPieceLocation.getColumn();
 				int finRow = l.getRow();
 				int finCol = l.getColumn();
-				
-				if(p.isValidMove(initCol, initRow, finCol, finRow, board))
+				if(!p.isMoveObstructed(initCol, initRow, finCol, finRow, board))
 				{
-					//force piece back to its original location, not by movement, because movement logic still applies in this case
-					//move, unmove, then check if king is not in check
-					Piece endPiece = board.getSquares()[finRow][finCol].getPiece();
-					board.getSquares()[finRow][finCol].setPiece(p);
-					board.getSquares()[initRow][initCol].setPiece(null);
-					boolean inCheck = isKingInCheck(isWhite);
-					board.getSquares()[initRow][initCol].setPiece(p);
-					board.getSquares()[finRow][finCol].setPiece(endPiece);
-					if(!inCheck)
+					if(p.isValidMove(initCol, initRow, finCol, finRow, board))
 					{
-						return false;
+						//force piece back to its original location, not by movement, because movement logic still applies in this case
+						//move, unmove, then check if king is not in check
+						Piece endPiece = board.getSquares()[finRow][finCol].getPiece();
+						board.getSquares()[finRow][finCol].setPiece(p);
+						board.getSquares()[initRow][initCol].setPiece(null);
+						boolean inCheck = isKingInCheck(isWhite);
+						board.getSquares()[initRow][initCol].setPiece(p);
+						board.getSquares()[finRow][finCol].setPiece(endPiece);
+						if(!inCheck)
+						{
+							return false;
+						}
 					}
 				}
 			}

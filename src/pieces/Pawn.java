@@ -59,7 +59,7 @@ public class Pawn extends Piece
 	}
 	
 	//Checks if pawn's first move is valid
-	public boolean isValidFirstMove(int fromCol, int fromRow, int toCol, int toRow)
+	public boolean isValidFirstMove(int fromCol, int fromRow, int toCol, int toRow, Piece pieceToCapture)
 	{
 		
 		//if piece is white
@@ -70,6 +70,20 @@ public class Pawn extends Piece
 			{
 				hasMoved = !hasMoved;
 				return true;
+			}
+			//if position to move to has a piece to capture and it isn't a piece of its own color
+			//check to make sure this works
+			else if(pieceToCapture != null && pieceToCapture.isWhite != isWhite)
+			{
+				//if pawn can capture piece
+				if(Math.abs(fromCol - toCol) == 1 && (toRow - fromRow) == 1)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
@@ -84,6 +98,19 @@ public class Pawn extends Piece
 			{
 				hasMoved = !hasMoved;
 				return true;
+			}
+			//else if there's a piece in the final position and it isn't of its own color
+			//CHECK TO MAKE SURE THIS WORKS
+			else if(pieceToCapture != null && pieceToCapture.isWhite != isWhite)
+			{
+				if(Math.abs(fromCol - toCol) == 1 && (fromRow - toRow) == 1)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
@@ -101,7 +128,7 @@ public class Pawn extends Piece
 		if(!hasMoved)
 		{
 			//if is valid first move
-			if(isValidFirstMove(fromCol, fromRow, toCol, toRow))
+			if(isValidFirstMove(fromCol, fromRow, toCol, toRow, pieceToCapture))
 			{
 				return true;
 			}
