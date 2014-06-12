@@ -1,13 +1,11 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import pieces.Piece;
 import board.Chessboard;
 import board.Location;
+import board.Square;
 
 public class GameManager 
 {
@@ -33,12 +31,12 @@ public class GameManager
 			//if player 1's turn
 			if(isPlayer1Turn)
 			{
-				//Detect check here
+				ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
+				
 				if(isKingInCheck(true))
 				{
 					System.out.println("Player 1, your king is in check.");
 					
-					ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
 					if(isInCheckmate(player1.isPlayerWhite(), game.getBoard(), friendlyPieces))
 					{
 						System.out.println("Player 1, your king is checkmated. Player 2 wins.");
@@ -47,8 +45,15 @@ public class GameManager
 					}
 				}
 				
-				System.out.println("Player 1's turn");
-				//if player 1's turn is successful, change player turn
+				System.out.println("Player 1's turn\n");
+				
+				//print out all pieces and their locations
+				for(Piece p : friendlyPieces)
+				{
+					System.out.printf("%s at %s", p.getName(), p.getLocation().toString());
+				}
+				System.out.println("");
+				
 				if(player1.takeTurn(game.getBoard()))
 				{
 					isPlayer1Turn = !isPlayer1Turn;
@@ -56,11 +61,12 @@ public class GameManager
 			}
 			else
 			{
+				ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
+				
 				if(isKingInCheck(false))
 				{
 					System.out.println("Player 2, your king is in check.");
 					
-					ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
 					if(isInCheckmate(player2.isPlayerWhite(), game.getBoard(), friendlyPieces))
 					{
 						System.out.println("Player 2, your king is checkmated. Player 1 wins.");
@@ -69,7 +75,8 @@ public class GameManager
 					}
 				}
 				
-				System.out.println("Player 2's turn");
+				System.out.println("Player 2's turn\n");
+				
 				if(player2.takeTurn(game.getBoard()))
 				{
 					isPlayer1Turn = !isPlayer1Turn;
@@ -81,7 +88,7 @@ public class GameManager
 	}
 	
 	//Get list of all places that king could possibly move to
-	public ArrayList<Location> getSafeAreas(board.Square[][] squaresCopy, Location kingLoc, boolean isKingWhite)
+	public ArrayList<Location> getSafeAreas(Square[][] squaresCopy, Location kingLoc, boolean isKingWhite)
 	{
 		ArrayList<Location> toReturn = new ArrayList<Location>();
 		
@@ -108,7 +115,7 @@ public class GameManager
 	}
 	
 	//Get list of all pieces that could capture king
-	public ArrayList<Piece> getOffendingPieces(board.Square[][] squaresCopy, boolean isWhite)
+	public ArrayList<Piece> getOffendingPieces(Square[][] squaresCopy, boolean isWhite)
 	{
 		ArrayList<Piece> toReturn = new ArrayList<Piece>();
 		
@@ -129,7 +136,7 @@ public class GameManager
 	}
 	
 	//Get list of all pieces that could capture king
-	public ArrayList<Piece> getFriendlyPieces(board.Square[][] squaresCopy, boolean isPieceWhite)
+	public ArrayList<Piece> getFriendlyPieces(Square[][] squaresCopy, boolean isPieceWhite)
 	{
 		ArrayList<Piece> toReturn = new ArrayList<Piece>();
 		
@@ -153,7 +160,7 @@ public class GameManager
 	public Location getKingLocation(boolean isPieceWhite)
 	{
 		Location toReturn = null;
-		board.Square[][] board = game.getBoard().getSquares();
+		Square[][] board = game.getBoard().getSquares();
 		
 		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
@@ -179,7 +186,7 @@ public class GameManager
 	{
 		//Create copies of the board at its current state so that I'm not modifying the game
 		Chessboard chessboardCopy = new Chessboard(game.getBoard());
-		board.Square[][] squaresCopy = chessboardCopy.getSquares();
+		Square[][] squaresCopy = chessboardCopy.getSquares();
 		
 		Location kingLoc = getKingLocation(isKingWhite);
 		
@@ -202,7 +209,7 @@ public class GameManager
 		return false;
 	}
 	
-	public boolean isInCheckmate(boolean isWhite, Chessboard board, ArrayList<Piece> friendlyPieces/*ArrayList<Piece> offendingPieces*/)
+	public boolean isInCheckmate(boolean isWhite, Chessboard board, ArrayList<Piece> friendlyPieces)
 	{
 		board = new Chessboard(board);
 		
@@ -216,18 +223,27 @@ public class GameManager
 				int initCol = initialPieceLocation.getColumn();
 				int finRow = l.getRow();
 				int finCol = l.getColumn();
+				Piece pieceBeforeMod = p;
+				
 				if(!p.isMoveObstructed(initCol, initRow, finCol, finRow, board))
 				{
 					if(p.isValidMove(initCol, initRow, finCol, finRow, board))
 					{
 						//force piece back to its original location, not by movement, because movement logic still applies in this case
-						//move, unmove, then check if king is not in check
+						Square initPos = board.getSquares()[initRow][initCol];
+						Square finPos = board.getSquares()[finRow][finCol];
 						Piece endPiece = board.getSquares()[finRow][finCol].getPiece();
-						board.getSquares()[finRow][finCol].setPiece(p);
-						board.getSquares()[initRow][initCol].setPiece(null);
+						
+						//move
+						finPos.setPiece(p);
+						initPos.setPiece(null);
+						
+						//get king in check
 						boolean inCheck = isKingInCheck(isWhite);
-						board.getSquares()[initRow][initCol].setPiece(p);
-						board.getSquares()[finRow][finCol].setPiece(endPiece);
+						
+						//unmove
+						initPos.setPiece(pieceBeforeMod);
+						finPos.setPiece(endPiece);
 						if(!inCheck)
 						{
 							return false;
@@ -250,9 +266,13 @@ public class GameManager
 		{
 			for(int j = 0; j < BOARD_LENGTH; j++)
 			{
-				if(p.isValidMove(p.getLocation().getColumn(), p.getLocation().getRow(), j, i, board))
+				if(!p.isMoveObstructed(p.getLocation().getColumn(), p.getLocation().getRow(), j, i, board))
 				{
-					toReturn.add(new Location(i, j));
+					if(p.isValidMove(p.getLocation().getColumn(), p.getLocation().getRow(), j, i, board))
+					{
+						Location possibleMove = new Location(j, i);
+						toReturn.add(possibleMove);
+					}
 				}
 			}
 		}

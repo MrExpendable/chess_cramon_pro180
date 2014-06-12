@@ -18,6 +18,14 @@ public class Rook extends Piece
 		name = "R";
 	}
 	
+	//copy constructor
+	public Rook(Rook r) 
+	{
+		isWhite = r.isWhite;
+		location = r.location;
+		name = r.name;
+	}
+
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		board.Square[][] squares = copyBoard.getSquares();

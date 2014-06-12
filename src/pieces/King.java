@@ -18,6 +18,14 @@ public class King extends Piece
 		name = "K";
 	}
 	
+	//copy constructor
+	public King(King k) 
+	{
+		isWhite = k.isWhite;
+		location = k.location;
+		name = k.name;
+	}
+
 	//find some way to not use this, same as knight
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{

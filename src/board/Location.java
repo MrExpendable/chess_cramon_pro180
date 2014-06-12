@@ -31,6 +31,8 @@ public class Location
 	@Override
 	public String toString()
 	{
-		return "Column: " + (col + 1) + "  Row: " + (row + 1) + "\n";
+		//Adding 65 because it will then display A through H, depending on the column's value
+		char printCol = (char)(col + 65);
+		return "" + printCol + (row + 1) + "\n";
 	}
 }

@@ -18,6 +18,14 @@ public class Queen extends Piece
 		name = "Q";
 	}
 	
+	//copy constructor
+	public Queen(Queen q) 
+	{
+		isWhite = q.isWhite;
+		location = q.location;
+		name = q.name;
+	}
+
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		int dirX = (toCol > fromCol) ? 1 : -1;

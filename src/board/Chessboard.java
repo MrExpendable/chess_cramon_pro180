@@ -139,29 +139,6 @@ public class Chessboard
 			}
 			System.out.println("");
 		}
+		System.out.println("");
 	}
-	
-	
-	
-	/*
-	 * Old code that I'm keeping for possible later testing
-	 */
-	
-//	System.out.println("Column: " + col);
-//	System.out.println("Row: " + row);
-//	System.out.println(isPieceWhite);
-//	System.out.println(pieceType);
-	
-	
-	//Testing
-//	System.out.println(squares[0][0].getPosition().toString());
-//	System.out.println("Checking if positions are equal...");
-//	if(squares[0][0].getPosition().toString().equals(positionToFill))
-//	{
-//		System.out.println("SUCCESS");
-//	}
-//	else
-//	{
-//		System.out.println("FAILURE");
-//	}
 }

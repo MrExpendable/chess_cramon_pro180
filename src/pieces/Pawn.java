@@ -20,6 +20,26 @@ public class Pawn extends Piece
 		name = "P";
 	}
 	
+	//copy constructor
+	public Pawn(Pawn p)
+	{
+		isWhite = p.isWhite;
+		location = p.location;
+		name = p.name;
+		hasMoved = p.hasMoved;
+	}
+	
+	public boolean getHasMoved()
+	{
+		return hasMoved;
+	}
+	
+	//used to make sure that the pawn's state is unmodified when checking for possible moves
+	public void setHasMoved(boolean b)
+	{
+		hasMoved = b;
+	}
+	
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		board.Square[][] squares = copyBoard.getSquares();

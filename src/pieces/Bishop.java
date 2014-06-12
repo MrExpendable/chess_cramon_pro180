@@ -18,6 +18,14 @@ public class Bishop extends Piece
 		name = "B";
 	}
 	
+	//copy constructor
+	public Bishop(Bishop b) 
+	{
+		isWhite = b.isWhite;
+		location = b.location;
+		name = b.name;
+	}
+
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
 		int dirX = (toCol > fromCol) ? 1 : -1;

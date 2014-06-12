@@ -18,6 +18,13 @@ public class Knight extends Piece
 		name = "N";
 	}
 	
+	public Knight(Knight k) 
+	{
+		isWhite = k.isWhite;
+		location = k.location;
+		name = k.name;
+	}
+
 	//find some way to not use this, instead just make it so that knight ignores collision
 	public boolean isMoveObstructed(int fromCol, int fromRow, int toCol, int toRow, Chessboard copyBoard)
 	{
