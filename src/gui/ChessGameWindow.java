@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ChessGameWindow extends JFrame
 {
@@ -231,8 +232,34 @@ class ButtonListener implements ActionListener
 		
 		if(window.getPanel().getBackground() != orange)
 		{
-			window.getPanel().add(window.getButtonBoard()[col][row]).setBackground(orange);
+			if(interpreter.getChessboard().getSquares()[col][row].getPiece() != null)
+			{
+				System.out.println("Button column: " + this.col);
+				System.out.println("Button row: " + this.row);
+				
+				//switch row and col to see if it works
+				ArrayList<Location> possibleMoves = interpreter.getAvailableMoves(new Location(this.col, this.row));
+				System.out.println("Available moves: \n");
+				if(!possibleMoves.isEmpty())
+				{
+					window.getPanel().add(window.getButtonBoard()[col][row]).setBackground(orange);
+					
+					for(Location l : possibleMoves)
+					{
+						System.out.println(l.toString());
+						window.getButtonBoard()[l.getRow()][l.getColumn()].setBackground(pink);
+					}
+				}
+				else
+				{
+					window.getButtonBoard()[this.row][this.col].setBackground(oldBackground);
+				}
+			}
 			//interpreter.getAvailableMoves(new Location(col, row));
+		}
+		else
+		{
+			System.out.println("lol");
 		}
 	}
 }
