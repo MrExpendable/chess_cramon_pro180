@@ -25,7 +25,8 @@ public class Game
 		ArrayList<String> piecePlacements = io.readFile(path);
 		parser.parsePiecePlacement(piecePlacements, board);
 		
-		board.printBoard();
+		//commenting out for gui
+		//board.printBoard();
 	}
 	
 	public Chessboard getBoard()

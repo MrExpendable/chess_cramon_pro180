@@ -25,29 +25,35 @@ public class GameManager
 		game.startGame(path);
 	}
 	
+	public Chessboard getChessboard()
+	{
+		return game.getBoard();
+	}
+	
 	public void runGame()
 	{
 		//Include forfeit method, like making the king kill itself?
 		while(isRunning)
 		{
-			//check for pawn promotion
-			checkPawnPromotion();
 			//if player 1's turn
 			if(isPlayer1Turn)
 			{
+				//check for pawn promotion
+				checkPawnPromotion();
+				
 				ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player1.isPlayerWhite());
 				
-//				if(isKingInCheck(true))
-//				{
-//					System.out.println("Player 1, your king is in check.");
-//					
-//					if(isInCheckmate(player1.isPlayerWhite(), game.getBoard(), friendlyPieces))
-//					{
-//						System.out.println("Player 1, your king is checkmated. Player 2 wins.");
-//						isRunning = !isRunning;
-//						break;
-//					}
-//				}
+				if(isKingInCheck(true))
+				{
+					System.out.println("Player 1, your king is in check.");
+					
+					if(isInCheckmate(player1.isPlayerWhite(), game.getBoard(), friendlyPieces))
+					{
+						System.out.println("Player 1, your king is checkmated. Player 2 wins.");
+						isRunning = !isRunning;
+						break;
+					}
+				}
 				
 				System.out.println("Player 1's turn\n");
 				
@@ -65,19 +71,22 @@ public class GameManager
 			}
 			else
 			{
+				//check for pawn promotion
+				checkPawnPromotion();
+				
 				ArrayList<Piece> friendlyPieces = getFriendlyPieces(game.getBoard().getSquares(), player2.isPlayerWhite());
 				
-//				if(isKingInCheck(false))
-//				{
-//					System.out.println("Player 2, your king is in check.");
-//					
-//					if(isInCheckmate(player2.isPlayerWhite(), game.getBoard(), friendlyPieces))
-//					{
-//						System.out.println("Player 2, your king is checkmated. Player 1 wins.");
-//						isRunning = !isRunning;
-//						break;
-//					}
-//				}
+				if(isKingInCheck(false))
+				{
+					System.out.println("Player 2, your king is in check.");
+					
+					if(isInCheckmate(player2.isPlayerWhite(), game.getBoard(), friendlyPieces))
+					{
+						System.out.println("Player 2, your king is checkmated. Player 1 wins.");
+						isRunning = !isRunning;
+						break;
+					}
+				}
 				
 				System.out.println("Player 2's turn\n");
 				
@@ -87,7 +96,8 @@ public class GameManager
 				}
 			}
 			
-			game.getBoard().printBoard();
+			//commenting out to implement gui
+			//game.getBoard().printBoard();
 		}
 	}
 	
@@ -292,11 +302,13 @@ public class GameManager
 			Piece blackPiece = game.getBoard().getSquares()[0][i].getPiece();
 			Piece whitePiece = game.getBoard().getSquares()[7][i].getPiece();
 			
+			//sets black queen
 			if(blackPiece != null && blackPiece instanceof Pawn)
 			{
 				game.getBoard().getSquares()[0][i].setPiece(new Queen(blackPiece.isWhite, blackPiece.location));
 			}
 			
+			//sets white queen
 			if(whitePiece != null && whitePiece instanceof Pawn)
 			{
 				game.getBoard().getSquares()[7][i].setPiece(new Queen(whitePiece.isWhite, whitePiece.location));
