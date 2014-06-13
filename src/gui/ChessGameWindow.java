@@ -447,7 +447,12 @@ class ButtonListener implements ActionListener
 				
 				//Get all possible moves for this piece, then highlight them in the window
 				//switch row and col to see if it works
+				Piece pieceBeforeMod = currentPiece;
+				pieceBeforeMod = interpreter.determinePieceType(currentPiece);
+				
 				ArrayList<Location> possibleMoves = interpreter.getAvailableMoves(new Location(this.col, this.row));
+				currentPiece = interpreter.determinePieceType(pieceBeforeMod);
+				interpreter.getChessboard().getSquares()[this.col][this.row].setPiece(currentPiece);
 				System.out.println("Available moves: \n");
 				
 				//if there are any possible moves for a given piece
