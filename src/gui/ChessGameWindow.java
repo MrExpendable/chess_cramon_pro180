@@ -1,11 +1,17 @@
 package gui;
 
-import game.GameManager;
-import board.Chessboard;
 import board.Location;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import pieces.Bishop;
+import pieces.King;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Piece;
+import pieces.Queen;
+import pieces.Rook;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +25,7 @@ public class ChessGameWindow extends JFrame
 	GuiInterpreter interpreter;
 	private static final int BOARD_LENGTH = 8;
 	private static final int BOARD_WIDTH = 8;
+	public static int buttonClickCount = 0;
 	
 	/*
 	 * Creates window and sets size
@@ -49,7 +56,15 @@ public class ChessGameWindow extends JFrame
 			for(int j = 0; j < BOARD_WIDTH; j++)
 			{		
 				buttonBoard[i][j] = new JButton();
-				buttonBoard[i][j].addActionListener(new ButtonListener(this, interpreter, i, j));
+				Piece p = interpreter.getChessboard().getSquares()[i][j].getPiece();
+				if(p != null)
+				{
+					buttonBoard[i][j].addActionListener(new ButtonListener(this, interpreter, i, j, p));
+				}
+				else
+				{
+					buttonBoard[i][j].addActionListener(new ButtonListener(this, interpreter, i, j, null));
+				}
 				
 				if((i % 2 == 0) && (j % 2 == 1))
 				{
@@ -65,7 +80,51 @@ public class ChessGameWindow extends JFrame
 				}
 			}
 		}
+		
 		con.add(chessboardPanel);
+	}
+	
+	public void resetComponents()
+	{
+		this.remove(chessboardPanel);
+		JPanel newPanel = new JPanel();
+		newPanel.setLayout(new GridLayout(8,8));
+		
+		Color a = Color.LIGHT_GRAY;
+		Color b = Color.DARK_GRAY;
+		
+		for(int i = 0; i < BOARD_LENGTH; i++)
+		{
+			for(int j = 0; j < BOARD_WIDTH; j++)
+			{		
+				buttonBoard[i][j] = new JButton();
+				Piece p = interpreter.getChessboard().getSquares()[i][j].getPiece();
+				if(p != null)
+				{
+					buttonBoard[i][j].addActionListener(new ButtonListener(this, interpreter, i, j, p));
+				}
+				else
+				{
+					buttonBoard[i][j].addActionListener(new ButtonListener(this, interpreter, i, j, null));
+				}
+				
+				if((i % 2 == 0) && (j % 2 == 1))
+				{
+					newPanel.add(buttonBoard[i][j]).setBackground(a);
+				}
+				else if((i % 2 == 1) && (j % 2 == 0))
+				{
+					newPanel.add(buttonBoard[i][j]).setBackground(a);
+				}
+				else
+				{
+					newPanel.add(buttonBoard[i][j]).setBackground(b);
+				}
+			}
+		}
+		
+		chessboardPanel = newPanel;
+		this.add(chessboardPanel);
 	}
 	
 	/*
@@ -85,109 +144,170 @@ public class ChessGameWindow extends JFrame
 	}
 	
 	/*
-	 * Adds pawn images to buttons
+	 * Adds images to board depending on piece locations
 	 */
-	public void addPawns()
+	public void addPieces()
 	{
-		for(int i = 0; i < iconBoard.length; i++)
+		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
-			try
+			for(int j = 0; j < BOARD_LENGTH; j++)
 			{
-				Image darkPawn = ImageIO.read(getClass().getResource("/assets/darkPawn.png"));
-			    buttonBoard[1][i].setIcon(new ImageIcon(darkPawn));
-			    
-			    Image lightPawn = ImageIO.read(getClass().getResource("/assets/lightPawn.png"));
-			    buttonBoard[6][i].setIcon(new ImageIcon(lightPawn));
-			}
-			catch(Exception e)
-			{
-				System.out.println("Can't find or read that image");
+				Piece p = interpreter.getChessboard().getSquares()[i][j].getPiece();
+				try
+				{
+					if(!p.isWhite)
+					{
+						if(p instanceof Pawn)
+						{
+							Image darkPawn = ImageIO.read(getClass().getResource("/assets/darkPawn.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkPawn));
+						}
+						else if(p instanceof Knight)
+						{
+							Image darkKnight = ImageIO.read(getClass().getResource("/assets/darkKnight.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkKnight));
+						}
+						else if(p instanceof Rook)
+						{
+							Image darkRook = ImageIO.read(getClass().getResource("/assets/darkRook.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkRook));
+						}
+						else if(p instanceof Bishop)
+						{
+							Image darkBishop = ImageIO.read(getClass().getResource("/assets/darkBishop.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkBishop));
+						}
+						else if(p instanceof Queen)
+						{
+							Image darkQueen = ImageIO.read(getClass().getResource("/assets/darkQueen.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkQueen));
+						}
+						else if(p instanceof King)
+						{
+							Image darkKing = ImageIO.read(getClass().getResource("/assets/darkKing.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(darkKing));
+						}
+					}
+					else
+					{
+						if(p instanceof Pawn)
+						{
+							Image lightPawn = ImageIO.read(getClass().getResource("/assets/lightPawn.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightPawn));
+						}
+						else if(p instanceof Knight)
+						{
+							Image lightKnight = ImageIO.read(getClass().getResource("/assets/lightKnight.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightKnight));
+						}
+						else if(p instanceof Rook)
+						{
+							Image lightRook = ImageIO.read(getClass().getResource("/assets/lightRook.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightRook));
+						}
+						else if(p instanceof Bishop)
+						{
+							Image lightBishop = ImageIO.read(getClass().getResource("/assets/lightBishop.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightBishop));
+						}
+						else if(p instanceof Queen)
+						{
+							Image lightQueen = ImageIO.read(getClass().getResource("/assets/lightQueen.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightQueen));
+						}
+						else if(p instanceof King)
+						{
+							Image lightKing = ImageIO.read(getClass().getResource("/assets/lightKing.png"));
+							buttonBoard[i][j].setIcon(new ImageIcon(lightKing));
+						}
+					}
+				}
+				catch(Exception e)
+				{
+					//keep this for now.. do something with this later
+				}
 			}
 		}
 	}
 	
-	/*
-	 * Adds the other piece images to the buttons
-	 */
-	public void addSpecialPieces()
+	public void updateGameState()
 	{
-		try
+		//update the gui, check for endgame
+		updateGUI();
+		interpreter.changePlayerTurn();
+		if(interpreter.detectEndgame())
 		{
-			//Rook
-			Image darkRook = ImageIO.read(getClass().getResource("/assets/darkRook.png"));
-		    buttonBoard[0][0].setIcon(new ImageIcon(darkRook));
-		    buttonBoard[0][7].setIcon(new ImageIcon(darkRook));
-		    
-		    Image lightRook = ImageIO.read(getClass().getResource("/assets/lightRook.png"));
-		    buttonBoard[7][0].setIcon(new ImageIcon(lightRook));
-		    buttonBoard[7][7].setIcon(new ImageIcon(lightRook));
-		    
-		    //Knight
-		    Image darkKnight = ImageIO.read(getClass().getResource("/assets/darkKnight.png"));
-		    buttonBoard[0][1].setIcon(new ImageIcon(darkKnight));
-		    buttonBoard[0][6].setIcon(new ImageIcon(darkKnight));
-		    
-		    Image lightKnight = ImageIO.read(getClass().getResource("/assets/lightKnight.png"));
-		    buttonBoard[7][1].setIcon(new ImageIcon(lightKnight));
-		    buttonBoard[7][6].setIcon(new ImageIcon(lightKnight));
-		    
-		    //Bishop
-		    Image darkBishop = ImageIO.read(getClass().getResource("/assets/darkBishop.png"));
-		    buttonBoard[0][2].setIcon(new ImageIcon(darkBishop));
-		    buttonBoard[0][5].setIcon(new ImageIcon(darkBishop));
-		    
-		    Image lightBishop = ImageIO.read(getClass().getResource("/assets/lightBishop.png"));
-		    buttonBoard[7][2].setIcon(new ImageIcon(lightBishop));
-		    buttonBoard[7][5].setIcon(new ImageIcon(lightBishop));
-		    
-		    //Queen
-		    Image darkQueen = ImageIO.read(getClass().getResource("/assets/darkQueen.png"));
-		    buttonBoard[0][3].setIcon(new ImageIcon(darkQueen));
-		    
-		    Image lightQueen = ImageIO.read(getClass().getResource("/assets/lightQueen.png"));
-		    buttonBoard[7][3].setIcon(new ImageIcon(lightQueen));
-		    
-		    //King
-		    Image darkKing = ImageIO.read(getClass().getResource("/assets/darkKing.png"));
-		    buttonBoard[0][4].setIcon(new ImageIcon(darkKing));
-		    
-		    Image lightKing = ImageIO.read(getClass().getResource("/assets/lightKing.png"));
-		    buttonBoard[7][4].setIcon(new ImageIcon(lightKing));
+			this.dispose();
 		}
-		catch(Exception e)
-		{
-			System.out.println("Can't find or read that image");
-		}
-		
-		//Add queen
-		iconBoard[0][3] = new ImageIcon("/assets/darkQueen.png");
-		iconBoard[7][3] = new ImageIcon("/assets/lightQueen.png");
-		
-		//Add king
-		iconBoard[0][4] = new ImageIcon("/assets/darkKing.png");
-		iconBoard[7][4] = new ImageIcon("/assets/lightKing.png");
 	}
 	
-	/*
-	 * Creates the gui
-	 */
-	public static void main(String[] args)
+	public void resetButtonBackgrounds()
 	{
-		ChessGameWindow gui;
+		Color a = Color.LIGHT_GRAY;
+		Color b = Color.DARK_GRAY;
 		
-		if(args != null)
+		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
-			gui = new ChessGameWindow(args[0]);
-			gui.createWindowComponents(gui.getContentPane());
-			gui.addPawns();
-			gui.addSpecialPieces();
-			gui.pack();
-		}
-		else
-		{
-			System.out.println("No filename provided; provide command line arguments");
+			for(int j = 0; j < BOARD_WIDTH; j++)
+			{
+				if((i % 2 == 0) && (j % 2 == 1))
+				{
+					buttonBoard[i][j].setBackground(a);
+				}
+				else if((i % 2 == 1) && (j % 2 == 0))
+				{
+					buttonBoard[i][j].setBackground(a);
+				}
+				else
+				{
+					buttonBoard[i][j].setBackground(b);
+				}
+			}
 		}
 	}
+	
+	public void updateGUI()
+	{
+		//doesn't do shit cause swing is a fucktruck
+//		revalidate();
+		//createWindowComponents(this.getContentPane());
+		//addPieces();
+		//revalidate();
+		//this.remove(getContentPane());
+		repaint();
+		addPieces();
+		repaint();
+		resetButtonBackgrounds();
+		repaint();
+//		createWindowComponents(this.getContentPane());
+//		this.remove(getContentPane());
+//		this.createWindowComponents(getContentPane());
+//		addPieces();
+//		repaint();
+	}
+	
+//	/*
+//	 * Creates the gui
+//	 */
+//	public static void main(String[] args)
+//	{
+//		ChessGameWindow gui;
+//		
+//		if(args != null)
+//		{
+////			gui = new ChessGameWindow(args[0]);
+////			gui.createWindowComponents(gui.getContentPane());
+////			gui.addPieces();
+//////			gui.addPawns();
+//////			gui.addSpecialPieces();
+////			gui.pack();
+//			createGUI(args[0]);
+//		}
+//		else
+//		{
+//			System.out.println("No filename provided; provide command line arguments");
+//		}
+//	}
 }
 
 /*
@@ -198,15 +318,18 @@ class ButtonListener implements ActionListener
 	ChessGameWindow window;
 	GuiInterpreter interpreter;
 	Color defaultBackground;
+	Piece currentPiece;
 	int col;
 	int row;
 	
-	public ButtonListener(ChessGameWindow window, GuiInterpreter interpreter, int col, int row)
+	public ButtonListener(ChessGameWindow window, GuiInterpreter interpreter, int col, int row, Piece p)
 	{
 		this.window = window;
 		this.interpreter = interpreter;
 		this.col = col;
 		this.row = row;
+		currentPiece = p;
+		//currentPiece = interpreter.getChessboard().getSquares()[this.col][this.row].getPiece();
 	}
 	
 	public void setBackgroundColor(Color c)
@@ -214,53 +337,171 @@ class ButtonListener implements ActionListener
 		defaultBackground = c;
 	}
 	
-	@Override
+	public void setIndividualIcons(Piece p)
+	{
+		try
+		{
+			if(!p.isWhite)
+			{
+				if(p instanceof Pawn)
+				{
+					Image darkPawn = ImageIO.read(getClass().getResource("/assets/darkPawn.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkPawn));
+				}
+				else if(p instanceof Knight)
+				{
+					Image darkKnight = ImageIO.read(getClass().getResource("/assets/darkKnight.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkKnight));
+				}
+				else if(p instanceof Rook)
+				{
+					Image darkRook = ImageIO.read(getClass().getResource("/assets/darkRook.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkRook));
+				}
+				else if(p instanceof Bishop)
+				{
+					Image darkBishop = ImageIO.read(getClass().getResource("/assets/darkBishop.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkBishop));
+				}
+				else if(p instanceof Queen)
+				{
+					Image darkQueen = ImageIO.read(getClass().getResource("/assets/darkQueen.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkQueen));
+				}
+				else if(p instanceof King)
+				{
+					Image darkKing = ImageIO.read(getClass().getResource("/assets/darkKing.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(darkKing));
+				}
+			}
+			else
+			{
+				if(p instanceof Pawn)
+				{
+					Image lightPawn = ImageIO.read(getClass().getResource("/assets/lightPawn.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightPawn));
+				}
+				else if(p instanceof Knight)
+				{
+					Image lightKnight = ImageIO.read(getClass().getResource("/assets/lightKnight.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightKnight));
+				}
+				else if(p instanceof Rook)
+				{
+					Image lightRook = ImageIO.read(getClass().getResource("/assets/lightRook.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightRook));
+				}
+				else if(p instanceof Bishop)
+				{
+					Image lightBishop = ImageIO.read(getClass().getResource("/assets/lightBishop.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightBishop));
+				}
+				else if(p instanceof Queen)
+				{
+					Image lightQueen = ImageIO.read(getClass().getResource("/assets/lightQueen.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightQueen));
+				}
+				else if(p instanceof King)
+				{
+					Image lightKing = ImageIO.read(getClass().getResource("/assets/lightKing.png"));
+					window.getButtonBoard()[this.col][this.row].setIcon(new ImageIcon(lightKing));
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			//uncaught exception, need to fix this
+		}
+	}
+	
 	public void actionPerformed(ActionEvent e)
 	{
-		//interpreter gets coordinates of button clicked
-		//gets available moves for that piece
-		//displays it on screen, repaint
-		//user clicks end location
-		//move the piece
-		
-		
 		//Orange is currently selected piece
 		//Pink is available moves
-		Color oldBackground = this.defaultBackground;
 		Color orange = Color.ORANGE;
 		Color pink = Color.PINK;
+		Color squareColor = window.getButtonBoard()[this.col][this.row].getBackground();
+		int r = squareColor.getRed();
+		int b = squareColor.getBlue();
+		int g = squareColor.getGreen();
+		Color backgroundColor = new Color(r, b, g);
+//		Piece p = interpreter.getChessboard().getSquares()[this.col][this.row].getPiece();
 		
-		if(window.getPanel().getBackground() != orange)
+		//if the square hasn't been clicked on
+		if(squareColor != orange)
 		{
-			if(interpreter.getChessboard().getSquares()[col][row].getPiece() != null)
+			if(squareColor == pink)
+			{
+				interpreter.incrementButtonClickCount();
+				//if this is the second time a player clicked, count it as a move
+				if(interpreter.getButtonClickCount() == 2)
+				{
+					System.out.println("Second time clicked, resetting");
+					interpreter.resetButtonClickCount();
+					interpreter.setMoveChoice(new Location(this.col, this.row));
+					window.getButtonBoard()[this.col][this.row].setBackground(backgroundColor);
+					
+					//Make a move with these two inputs, then update the game state and the gui
+					if(interpreter.makeMove())
+					{
+						//setIndividualIcons(currentPiece);
+						window.resetComponents();
+						window.updateGameState();
+					}
+				}
+			}
+			//If the piece in the space clicked is not null and the piece color matches the player's turn
+			else if(currentPiece != null && (currentPiece.isWhite == interpreter.isPlayer1Turn))
 			{
 				System.out.println("Button column: " + this.col);
 				System.out.println("Button row: " + this.row);
 				
+				//Get all possible moves for this piece, then highlight them in the window
 				//switch row and col to see if it works
 				ArrayList<Location> possibleMoves = interpreter.getAvailableMoves(new Location(this.col, this.row));
 				System.out.println("Available moves: \n");
+				
+				//if there are any possible moves for a given piece
 				if(!possibleMoves.isEmpty())
 				{
+					interpreter.incrementButtonClickCount();
 					window.getPanel().add(window.getButtonBoard()[col][row]).setBackground(orange);
 					
 					for(Location l : possibleMoves)
 					{
 						System.out.println(l.toString());
-						window.getButtonBoard()[l.getRow()][l.getColumn()].setBackground(pink);
+						window.getPanel().add(window.getButtonBoard()[l.getRow()][l.getColumn()]).setBackground(pink);
+					}
+					
+					//if the player clicked once, then count the first click as choosing a piece
+					if(interpreter.getButtonClickCount() == 1)
+					{
+						System.out.println("First time clicked");
+						interpreter.setPieceChoice(new Location(this.col, this.row));
+					}
+					else
+					{
+						interpreter.resetButtonClickCount();
+						window.resetButtonBackgrounds();
 					}
 				}
 				else
 				{
-					window.getButtonBoard()[this.row][this.col].setBackground(oldBackground);
+					//window.getButtonBoard()[this.col][this.row].setBackground(backgroundColor);
 				}
 			}
 			//interpreter.getAvailableMoves(new Location(col, row));
 		}
+		//if the square was already clicked on
 		else
 		{
-			System.out.println("lol");
+			interpreter.resetButtonClickCount();
+			window.resetButtonBackgrounds();
+			//window.getPanel().add(window.getButtonBoard()[col][row]).setBackground(orange);
 		}
+		//JOptionPane.showMessageDialog(null, "Player 2 is checkmated. Player 1 wins!");
+		//window.dispose();
+		System.out.println("exiting out of actionlistener and updating");
 	}
 }
 

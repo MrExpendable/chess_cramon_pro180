@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 import pieces.*;
 import board.Chessboard;
 import board.Location;
@@ -24,6 +26,30 @@ public class Player
 	public boolean isPlayerWhite()
 	{
 		return isWhite;
+	}
+	
+	public boolean takeTurnGUI(Chessboard board, Location init, Location fin, boolean isPlayer1Turn)
+	{
+		Piece playerPiece = board.getSquares()[init.getRow()][init.getColumn()].getPiece();
+		//if player piece matches player color
+		if(playerPiece.isWhite == isPlayer1Turn)
+		{
+			//if player piece can move to position on the board
+			if(board.movePiece(init, fin))
+			{
+				return true;
+			}
+			else
+			{
+				//piece can't move there
+				return false;
+			}
+		}
+		else
+		{
+			//player tried to move piece that wasn't theirs
+			return false;
+		}
 	}
 	
 	//Asks for input and then sends it to the board to move a piece

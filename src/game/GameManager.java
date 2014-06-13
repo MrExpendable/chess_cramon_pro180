@@ -25,11 +25,38 @@ public class GameManager
 		game.startGame(path);
 	}
 	
+//	public GameManager(String path, Chessboard copyOfBoard)
+//	{
+//		game = new Game();
+//		player1 = new Player(true);
+//		player2 = new Player(false);
+//		privateBoard = new Chessboard(copyOfBoard);
+//		game.startGame(path);
+//	}
+	
+	public boolean isPlayer1Turn()
+	{
+		return isPlayer1Turn;
+	}
+	
 	public Chessboard getChessboard()
 	{
 		return game.getBoard();
 	}
 	
+	public boolean makeMove(Location init, Location fin, boolean isP1Turn)
+	{
+		if(player2.takeTurnGUI(game.getBoard(), init, fin, isP1Turn))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	//This was for the console version of the game, but this won't be used as far as GUI goes
 	public void runGame()
 	{
 		//Include forfeit method, like making the king kill itself?
