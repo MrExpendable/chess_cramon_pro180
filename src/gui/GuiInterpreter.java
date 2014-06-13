@@ -101,6 +101,11 @@ public class GuiInterpreter
 		isPlayer1Turn = !isPlayer1Turn;
 	}
 	
+	public void checkPawnPromotion()
+	{
+		gm.checkPawnPromotion();
+	}
+	
 	public boolean detectEndgame()
 	{
 		if(gm.isKingInCheck(true))

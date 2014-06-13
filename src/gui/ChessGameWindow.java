@@ -233,6 +233,7 @@ public class ChessGameWindow extends JFrame
 	public void updateGameState()
 	{
 		//update the gui, check for endgame
+		interpreter.checkPawnPromotion();
 		updateGUI();
 		interpreter.changePlayerTurn();
 		if(interpreter.detectEndgame())
@@ -268,22 +269,11 @@ public class ChessGameWindow extends JFrame
 	
 	public void updateGUI()
 	{
-		//doesn't do shit cause swing is a fucktruck
-//		revalidate();
-		//createWindowComponents(this.getContentPane());
-		//addPieces();
-		//revalidate();
-		//this.remove(getContentPane());
 		repaint();
 		addPieces();
 		repaint();
 		resetButtonBackgrounds();
 		repaint();
-//		createWindowComponents(this.getContentPane());
-//		this.remove(getContentPane());
-//		this.createWindowComponents(getContentPane());
-//		addPieces();
-//		repaint();
 	}
 	
 //	/*
@@ -329,7 +319,6 @@ class ButtonListener implements ActionListener
 		this.col = col;
 		this.row = row;
 		currentPiece = p;
-		//currentPiece = interpreter.getChessboard().getSquares()[this.col][this.row].getPiece();
 	}
 	
 	public void setBackgroundColor(Color c)
